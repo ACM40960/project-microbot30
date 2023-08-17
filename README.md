@@ -16,5 +16,6 @@
   The dataset contains over a thousand low-dose CT images from high-risk patients in DICOM format. Due to a lack of computational power, The sample of the data is used to build and compare predictive models. Each image contains a series with multiple axial slices of the chest cavity. Each image has various 2D slices, varying based on the machine taking the scan and the patient. Data contain 3 chest cancer types: Adenocarcinoma, Large cell carcinoma, Squamous cell carcinoma, and 1 folder for the normal cell.
 </p>
 <br>
+
 <img width="451" alt="image" src="https://github.com/ACM40960/project-microbot30/assets/52736762/323343ee-c72a-4592-865c-623296de7c8c">
 
