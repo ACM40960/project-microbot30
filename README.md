@@ -110,7 +110,7 @@
 
 <img width="475" height="75" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/credits.png">
 <p>
-  This project is in collaboration with Harish Sanmugam J (https://github.com/ACM40960/project-microbot30)
+  This project is in collaboration with Kiran Subramanian S (https://github.com/ACM40960/project-kiran15501)
 
   for further queries, do mail us:
   
