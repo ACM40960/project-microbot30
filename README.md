@@ -1,14 +1,14 @@
-<h1>LUNG CANCER PREDICTION & MODEL COMPARISON</h1>
+<h1>🫁LUNG CANCER PREDICTION & MODEL COMPARISON🔍</h1>
 <br>
-<h3>MOTIVATION</h3>
+<h3>❤️‍🔥MOTIVATION</h3>
 
 <p>Lung cancer has been identified for an estimated 9.6 million fatalities in 2018 according to estimates. Even though contemporary medical advancements have led to a large increase in cancer survival rates overall, lung cancer has seen less improvement than other types of cancer since the bulk of symptoms and diagnosed patients have more severe conditions.</p>
 <br>
-<H3>OVERVIEW</H3>
+<H3>🎯👨🏻‍💻OVERVIEW</H3>
   
 <p>There is an increasing demand for cutting-edge, reliable strategies to enhance early identification and risk stratification of lung cancer in its early stages since it is challenging for a doctor or radiologist to detect cancer fast and properly due to the enormous quantity of CT images. The objective is to create predictive deep learning models capable of early, accurate lung cancer detection utilizing unprocessed CT scan images.</p>
 <br>
-<h3>DATASET</h3>
+<h3>👨🏻‍💻DATASET</h3>
   <img width="454" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%201.png">
 <img width="451" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%202.png">
 <p>
