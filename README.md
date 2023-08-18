@@ -8,7 +8,7 @@
   
 <p>There is an increasing demand for cutting-edge, reliable strategies to enhance early identification and risk stratification of lung cancer in its early stages since it is challenging for a doctor or radiologist to detect cancer fast and properly due to the enormous quantity of CT images. The objective is to create predictive deep learning models capable of early, accurate lung cancer detection utilizing unprocessed CT scan images.</p>
 <br>
-<h3>👨🏻‍💻DATASET</h3>
+<img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/DATASET.png">
   <img width="454" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%201.png">
 <img width="451" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%202.png">
 <p>
