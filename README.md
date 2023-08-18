@@ -10,6 +10,22 @@
     There is an increasing demand for cutting-edge, reliable strategies to enhance early identification and risk stratification of lung cancer in its early stages since it is challenging for a doctor or radiologist to detect cancer fast and properly due to the enormous quantity of CT images. The objective is to create predictive deep learning models capable of early, accurate lung cancer detection utilizing unprocessed CT scan images.
   </p>
 
+<h2>THIS REPO IS USEFUL TO:</h2>
+
+<H3>Machine learning enthusiasts and data scientists:</H3> The repository can be utilized as a learning tool for data scientists and machine learning experts. They can analyze the source code, understand the machine learning process, and apply similar methods in their own projects.
+
+<H3>Professionals in Healthcare:</H3> Doctors and medical researchers, among others, can benefit from studying how predictive models might aid in the diagnosis and prognosis of cardiac disease. They might be curious about the approach's effectiveness and how it might alter patient care.
+
+<H3>Students and Researchers:</H3> Students working on projects and conducting research in the fields of data science, machine learning, and medicine might benefit from the repository. It can be used as a guide to understanding how machine learning is applied in healthcare.
+
+<h2>PROJECT APPLICATIONS:</h2>
+
+<h3>Healthcare Organizations:</h3> Healthcare organizations who want to apply predictive models for the identification and prevention of heart disease can utilize the repository as a starting point. They could adapt the model to their specific requirements and datasets.
+
+<h3>Health Insurance & Telemedications:</h3> Insurance companies may employ predictive models to analyze risk profiles and tailor insurance plans. Predictive models may be linked to telemedicine systems to provide virtual consultations with risk assessments. Aggregated data from prediction models may aid public health surveillance by providing information on illness prevalence and trends.
+
+<h3>Medical Research:</h3> Machine learning can be used to analyze large medical datasets in order to discover new risk factors and linkages, increasing medical research and the development of new treatments.
+
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/DATASET.png">
   <img width="454" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%201.png">
   <img width="451" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%202.png">
@@ -66,5 +82,15 @@
 
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/results.png">
 
+<img src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/final_results.jpg">
+
+<p>The loss and accuracy graphs give us an overview of all three model’s performances. After evaluating the loss and accuracy of each model, The CNN model performed comparatively better than DNN and ResNet 50 models. Moreover, the CNN model shows no under-fitting or over-fitting. Even though, The ResNet 50 and the other models show lower accuracy, these models have the potential to perform better under higher computational power with the entire dataset as input.
+</p>
+<h1>PERFORMANCE METRICS</h1>
+<img width="500" height="375" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/performance.jpg">
+<p>The performance metrics of the better-performing model is mentioned above.</p>
+<h1>FINAL OUTPUT</h1>
 <img src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/result_page.png">
+<p>When an un-processed lung CT scan is fed to the model, It shows the type and probability of cancer(If any).</p>
+
 
