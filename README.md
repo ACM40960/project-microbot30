@@ -1,4 +1,4 @@
-<h1>🫁LUNG CANCER PREDICTION & MODEL COMPARISON🔍</h1>
+<img alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/title.png">
 <br>
 <h3>❤️‍🔥MOTIVATION</h3>
 
