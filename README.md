@@ -27,8 +27,11 @@
 <h3>Medical Research:</h3> Machine learning can be used to analyze large medical datasets in order to discover new risk factors and linkages, increasing medical research and the development of new treatments.
 
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/DATASET.png">
-  <img width="454" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%201.png">
-  <img width="451" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%202.png">
+  <img width="454" alt="image" align="left" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%201.png">
+  <img width="451" alt="image" align="right"src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/Picture%202.png">
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
 <p>
   The dataset contains over a thousand low-dose CT images from high-risk patients in DICOM format. Due to a lack of computational power, The sample of the data is used to build and compare predictive models. Each image contains a series with multiple axial slices of the chest cavity. Each image has various 2D slices, varying based on the machine taking the scan and the patient. Data contain 3 chest cancer types: Adenocarcinoma, Large cell carcinoma, Squamous cell carcinoma, and 1 folder for the normal cell.
 </p>
@@ -36,26 +39,6 @@
 <img width="600" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/preProcessing.png">
 <p>
   The images in the data file are in the format (512, 512, z). ‘z’ represents the number of slices in the CT scan and varies depending on the resolution of the medical image scanner. Due to computational resource constraints, such huge images cannot be directly fed into Convolution Network structures. To overcome this limitation, The areas that are most likely to get cancer are narrowed down. This process is done by segmenting the lungs first using image processing methods and then deleting low-intensity regions. The segmentation of lung structures is a difficult task due to the lack of uniformity in the lung region, differing densities in the pulmonary structures, and the use of diverse scanners and scanning procedures.
-</p>
-
-
-<img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/models_used.png">
-<h1>DNN</h1>
-<img alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/dnn.png">
-<p>
-  A deep Neural Network is a type of artificial neural network that consists of multiple hidden layers between the input and output layers. Each layer is composed of nodes (also called neurons) that perform computations on the data. The deep neural network consists of an input layer, 3 hidden layers with L2 regularization and activation function ‘RELU’, and an output layer activation function ‘SoftMax’. The optimizer used is Adam’s optimizer.
-</p>
-<br>
-<h1>CNN</h1>
-<img alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/cnn.jpg">
-<p>
-  A convolutional Neural Network is a type of deep neural network specifically designed for processing and analyzing grid-like data, such as images, videos, and audio spectrograms. The CT scans were augmented before model fitting. The model architecture used to process the CT scans consists of 4 convolutional 2D layers, layer batch normalization with the activation function ‘RELU’ with the pooling size of (2, 2) is then flattened and fed into 1 hidden layer, and an output layer ‘SoftMax’.
-</p>
-<br>
-<h1>RESNET50</h1>
-<img width="1200" height="300" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/resnet50.jpg">
-<p>
-  Residual Network-50 is a specific architecture of a convolutional neural network (CNN). The ResNet architecture addresses the challenge of training very deep neural networks by introducing the concept of residual blocks. The architecture of ResNet 50 consists of pre-built optimized weights obtained from the existing model. The CT scans are then flattened and fed into 2 hidden layers with early stopping regularization.
 </p>
 
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/how_to_run.png">
@@ -80,6 +63,30 @@
 4. Run the R-Markdown cell-by-cell (or) knit as pdf/html to see the different model performances
 5. To run app.R, The run button in the r-studio menu can be used to launch the CNN model, which is deployed in the app.R file.
 
+<img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/models_used.png">
+<h1>DNN</h1>
+<img alt="image" width="600" height="400" align="right" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/dnn.png">
+<p>
+  A deep Neural Network is a type of artificial neural network that consists of multiple hidden layers between the input and output layers. Each layer is composed of nodes (also called neurons) that perform computations on the data. The deep neural network consists of an input layer, 3 hidden layers with L2 regularization and activation function ‘RELU’, and an output layer activation function ‘SoftMax’. The optimizer used is Adam’s optimizer.
+</p>
+<br><br><br><br>
+<br><br><br><br>
+
+<h1>CNN</h1>
+<img alt="image" width="600" height="400" align="right" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/cnn.jpg">
+<p>
+  A convolutional Neural Network is a type of deep neural network specifically designed for processing and analyzing grid-like data, such as images, videos, and audio spectrograms. The CT scans were augmented before model fitting. The model architecture used to process the CT scans consists of 4 convolutional 2D layers, layer batch normalization with the activation function ‘RELU’ with the pooling size of (2, 2) is then flattened and fed into 1 hidden layer, and an output layer ‘SoftMax’.
+</p>
+<br><br><br><br>
+<br><br><br><br>
+
+<h1>RESNET50</h1>
+<img width="1200" height="300" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/resnet50.jpg">
+<p>
+  Residual Network-50 is a specific architecture of a convolutional neural network (CNN). The ResNet architecture addresses the challenge of training very deep neural networks by introducing the concept of residual blocks. The architecture of ResNet 50 consists of pre-built optimized weights obtained from the existing model. The CT scans are then flattened and fed into 2 hidden layers with early stopping regularization.
+</p>
+
+
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/results.png">
 
 <img src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/final_results.jpg">
@@ -87,8 +94,13 @@
 <p>The loss and accuracy graphs give us an overview of all three model’s performances. After evaluating the loss and accuracy of each model, The CNN model performed comparatively better than DNN and ResNet 50 models. Moreover, the CNN model shows no under-fitting or over-fitting. Even though, The ResNet 50 and the other models show lower accuracy, these models have the potential to perform better under higher computational power with the entire dataset as input.
 </p>
 <h1>PERFORMANCE METRICS</h1>
-<img width="500" height="375" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/performance.jpg">
+<img width="500" height="375" align="right" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/performance.jpg">
+<br><br><br><br>
 <p>The performance metrics of the better-performing model is mentioned above.</p>
+
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
 <h1>FINAL OUTPUT</h1>
 <img src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/result_page.png">
 <p>When an un-processed lung CT scan is fed to the model, It shows the type and probability of cancer(If any).</p>
