@@ -62,7 +62,7 @@
 ```
 4. Run the R-Markdown cell-by-cell (or) knit as pdf/html to see the different model performances
 5. To run app.R, The run button in the r-studio menu can be used to launch the CNN model, which is deployed in the app.R file.
-
+<br>
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/models_used.png">
 <h1>DNN</h1>
 <img alt="image" width="600" height="400" align="right" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/dnn.png">
@@ -105,4 +105,29 @@
 <img src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/result_page.png">
 <p>When an un-processed lung CT scan is fed to the model, It shows the type and probability of cancer(If any).</p>
 
+<img width="475" height="75" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/contributions.png">
+<p>We encourage contributions to this repository. Feel free to send in a pull request if you have ideas for improved machine learning models, want to expand on data pre-processing, identify any data abnormalities, or want to improve any aspect of the project.</p>
 
+<img width="475" height="75" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/credits.png">
+<p>
+  This project is in collaboration with Harish Sanmugam J (https://github.com/ACM40960/project-microbot30)
+
+  for further queries, do mail us:
+  
+  1. Harish Sanmugam J [harishsanmugam2000@gmail.com]
+  2. Kiran Subramanian S [kiransubramanian2001@gmail.com]
+</p>
+
+<img width="475" height="75" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/references.png">
+<p>
+  [1]. World Health Organisation‘s Official website https://www.who.int/news-room/factsheets/detail/cancer#:~:text=The%20most%20common%20causes%20of,Lung%20(1.76%20 million%20deaths)
+
+.[2] Moradi P and Jamzad M 2019 Detecting Lung Cancer Lesions in CT Images using 3D Convolutional Neural Networks 4th Int. Conf. on Pattern Recognition and Image Analysis (IPRIA) pp. 114-118.
+
+[3]. Alakwaa W, Nassef M and Badr A 2017 Lung cancer detection and classification with 3D convolutional neural network (3D-CNN) Lung Cancer 8(8):409.
+
+[4]. Vani Rajasekar A, M.P. Vaishnnave Lung cancer disease prediction with CT scan and histopathological images feature analysis using deep learning techniques.
+
+[5]. Eali Stephen Neal Joshua, Debnath Bhattacharyya, Midhun Chakkravarthy, and Yung-Cheol Byun-corresponding 2021 3D CNN with Visual Insights for Early Detection of Lung Cancer Using Gradient-Weighted Class Activation
+
+</p>
