@@ -43,15 +43,28 @@
 </p>
 
 <img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/how_to_run.png">
-<ol>
-  <li>Git Clone the repo 'project-kiran15501'</li>
-  <li>Required environment: RStudio with R 3.3.0 and above</li>
-  <li>Install required libraries mentioned below:
-  ```R
-require(shiny)
-require(keras)
-require(base64enc)
-require(png)
+
+1. Git Clone the repo 'project-kiran15501'.
+2. Required environment: RStudio with R 3.3.0 and above.
+
+   R: https://cran.r-project.org/bin/
+   
+   RStudio: https://posit.co/download/rstudio-desktop/
+4. Install the required libraries mentioned below: 
+
+  ```code
+      install.packages(shiny)
+      install.packages(keras)
+      install.packages(base64enc)
+      install.packages(png)
+      install.packages(caret)
+      install.packages("jpeg")
+
 ```
-  </li>
-</ol>
+4. Run the R-Markdown cell-by-cell (or) knit as pdf/html to see the different model performances
+5. To run app.R, The run button in the r-studio menu can be used to launch the CNN model, which is deployed in the app.R file.
+
+<img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/results.png">
+
+<img src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/result_page.png">
+
