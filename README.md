@@ -41,3 +41,17 @@
 <p>
   Residual Network-50 is a specific architecture of a convolutional neural network (CNN). The ResNet architecture addresses the challenge of training very deep neural networks by introducing the concept of residual blocks. The architecture of ResNet 50 consists of pre-built optimized weights obtained from the existing model. The CT scans are then flattened and fed into 2 hidden layers with early stopping regularization.
 </p>
+
+<img width="500" height="100" alt="image" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/how_to_run.png">
+<ol>
+  <li>Git Clone the repo 'project-kiran15501'</li>
+  <li>Required environment: RStudio with R 3.3.0 and above</li>
+  <li>Install required libraries mentioned below:
+  ```R
+require(shiny)
+require(keras)
+require(base64enc)
+require(png)
+```
+  </li>
+</ol>
