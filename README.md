@@ -114,8 +114,8 @@
 
   for further queries, do mail us:
   
-  1. Harish Sanmugam J [harishsanmugam2000@gmail.com]
-  2. Kiran Subramanian S [kiransubramanian2001@gmail.com]
+  1. Harish Sanmugam J [harishsanmugam2000@gmail.com] 22205543
+  2. Kiran Subramanian S [kiransubramanian2001@gmail.com]  22204657
 </p>
 
 <img width="475" height="75" src="https://github.com/ACM40960/project-microbot30/blob/main/readme_images/references.png">
@@ -129,7 +129,5 @@
 [4]. Vani Rajasekar A, M.P. Vaishnnave Lung cancer disease prediction with CT scan and histopathological images feature analysis using deep learning techniques.
 
 [5]. Eali Stephen Neal Joshua, Debnath Bhattacharyya, Midhun Chakkravarthy, and Yung-Cheol Byun-corresponding 2021 3D CNN with Visual Insights for Early Detection of Lung Cancer Using Gradient-Weighted Class Activation
-
-kiran
 
 </p>

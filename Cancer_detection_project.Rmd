@@ -1,0 +1,511 @@
+---
+title: "Project-ACM40960"
+author: "Kiran Subramanian Sudhakar  22204657 && Harish Sanmugam J  22205543"
+date: "`r Sys.Date()`"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE,warning = FALSE)
+```
+
+
+###  Introduction
+
+Lung cancer has been identified for an estimated 9.6 million fatalities in 2018 according to estimates. Even though contemporary medical advancements have led to a large increase in cancer survival rates overall, lung cancer has seen less improvement than other types of cancer since the bulk of symptoms and diagnosed patients have more severe conditions.
+
+### About Dataset 
+
+The dataset contains over a thousand low-dose CT images from high-risk patients in DICOM format. Due to a lack of computational power, The sample of the data is used to build and compare predictive models. Each image contains a series with multiple axial slices of the chest cavity. Each image has various 2D slices, varying based on the machine taking the scan and the patient. Data contain 3 chest cancer types: Adenocarcinoma, Large cell carcinoma, Squamous cell carcinoma, and 1 folder for the normal cell.
+
+### Need Preprosessing 
+
+The images in the data file are in the format (512, 512, z). ‘z’ represents the number of slices in the CT scan and varies depending on the resolution of the medical image scanner. Due to computational resource constraints, such huge images cannot be directly fed into Convolution Network structures. To overcome this limitation, The areas that are most likely to get cancer are narrowed down. This process is done by segmenting the lungs first using image processing methods and then deleting low-intensity regions. The segmentation of lung structures is a difficult task due to the lack of uniformity in the lung region, differing densities in the pulmonary structures, and the use of diverse scanners and scanning procedures.
+
+**Loading the necessary dataset and necessary packages**
+```{r}
+#Importing the library 
+library("jpeg")
+library(keras)
+library(caret)
+```
+
+```{r}
+#give appropriate path for data set 
+train_path = "/Data/train"
+valid_path = "/Data/valid"
+test_path = "/Data/test"
+```
+
+
+**For training, validation, and testing, images have been resized and imported into the model.**
+```{r}
+# seting the seed
+set.seed(22204657)
+
+# number of output
+NUM_CLASSES <- 4
+
+# Define data generators for training
+train_datagen <- flow_images_from_directory(
+  train_path,
+  generator = image_data_generator(
+    rescale = 1/255,
+    rotation_range = 20,
+    width_shift_range = 0.2,
+    height_shift_range = 0.2,
+    shear_range = 0.2,
+    zoom_range = 0.2,
+    horizontal_flip = TRUE,
+    vertical_flip = FALSE
+  ),
+  target_size = c(255, 255),
+  batch_size = 32,
+  class_mode = "categorical"
+)
+
+# Define data generators for test
+test_datagen <- flow_images_from_directory(
+  test_path,
+  generator = image_data_generator(rescale = 1/255),
+  target_size = c(255,255),
+  batch_size = 32,
+  class_mode = "categorical"
+)
+
+# Define data generators for validation
+validation_datagen <- flow_images_from_directory(
+  valid_path,
+  generator = image_data_generator(rescale = 1/255),
+  target_size = c(255, 255),
+  batch_size = 32,
+  class_mode = "categorical"
+)
+
+
+
+```
+
+### Model - 1
+
+**Implementing Model 1 - Deep Neural Network with 3 hidden layer**
+```{r}
+
+#implementing the DNN model 
+model1 <- keras_model_sequential() %>%
+  layer_flatten(input_shape = c(255,255,3)) %>%
+  layer_dense(units = 256, activation = "relu", name = "layer_1",kernel_regularizer = regularizer_l2(0.01)) %>%
+  
+  layer_dense(units = 128, activation = "relu", name = "layer_2", kernel_regularizer = regularizer_l2(0.01)) %>%
+  
+  layer_dense(units = 64, activation = "relu", name = "layer_3",kernel_regularizer = regularizer_l2(0.01))%>%
+  
+  layer_dense(units = 4, activation = "softmax", name = "layer_out") %>%
+  
+  compile(loss = "categorical_crossentropy", metrics = "accuracy",
+          optimizer = optimizer_adam(learning_rate = 0.002))
+# model summary
+summary(model1)
+
+
+```
+
+
+**Interpretation**
+
+-   A deep neural network with three hidden layers and a total of 256,128,64 neuron units has been used to fit an initial model.
+
+-   For input layers, relu has been employed as an activation function. Relu was selected as the activation function since it does not have the vanishing gradient issue like sigmoid or hyperbolic tangent have. The activation function does not saturate and the parameter values are updated as a result of the use of the relu function.
+
+-   Ten neurons make up the output layer since ten class outputs are expected. Softmax function is the activation function utilized in the output layer.In neural networks, the softmax function is a common activation function, especially for multiclass classification issues.As a result, the softmax function has been used as the output layer's optimization function.
+
+-   The purpose of L2 regularization has been to reduce overfitting issues. Because L2 regularization smoothly reduces the weights that don't significantly affect the objective function, it has been used. L2 regularization makes a model more resilient to changes in the input data, which can aid a model's generalization.
+
+-   The parameter weights have been updated and optimized using adaptive moment estimation.Adam calculates a unique adaptive learning rate for each network parameter. This implies that each parameter may have a distinct rate of learning, which might be advantageous for training massive neural networks.
+
+-   Adam employs momentum to hasten the optimization process' convergence while also being resistant to the sparse gradients that might appear in deep neural networks with several parameters.
+
+```{r}
+
+# fitting the train data to the model
+fit1 <- model1 %>% fit(
+  train_datagen,
+  steps_per_epoch = nrow(train_datagen),
+  epochs = 50,
+  validation_data = validation_datagen,
+  validation_steps = nrow(validation_datagen)
+)
+
+```
+
+
+**Interpretation**
+
+-   Fitting the model with 50 epochs.
+
+**Function to draw the learning curves**
+```{r}
+# to add a smooth line to points for plotting the graph 
+smooth_line <- function(y) {
+  x <- 1:length(y)
+  out <- predict( loess(y ~ x) )
+  return(out)
+}
+```
+
+**Learning graph accuracy and loss graphs**
+```{r}
+# check learning curves
+out <- cbind(fit1$metrics$accuracy,
+fit1$metrics$val_accuracy,
+fit1$metrics$loss,
+fit1$metrics$val_loss)
+cols <- c("black", "dodgerblue3")
+par(mfrow = c(1,2))
+# accuracy
+matplot(out[,1:2], pch = 19, ylab = "Accuracy", xlab = "Epochs",
+col = adjustcolor(cols, 0.3),
+log = "y",main = "Accuracy vs. Epochs")
+matlines(apply(out[,1:2], 2, smooth_line), lty = 1, col = cols, lwd = 2)
+legend("bottomright", legend = c("Training", "Validation"),
+fill = cols, bty = "n")
+#
+# loss
+matplot(out[,3:4], pch = 19, ylab = "Loss", xlab = "Epochs",
+col = adjustcolor(cols, 0.3),main = "Lossaqd vs. Epochs")
+matlines(apply(out[,3:4], 2, smooth_line), lty = 1, col = cols, lwd = 2)
+legend("topright", legend = c("Training", "Validation"),
+fill = cols, bty = "n")
+
+```
+
+
+```{r}
+cat("Training,Validation accuracy and loss : \n")
+model1 %>% evaluate(train_datagen, train_datagen$classes, verbose = 0)
+model1 %>% evaluate(validation_datagen, validation_datagen$classes, verbose = 0)
+```
+ **Inference**
+ 
+-   After using the typical neural network with epochs of 50, we fitted the model, and the training set accuracy was found to be approximately 0.4600326.
+
+-   We obtained an accuracy of about 0.3194444 around when comparing the predictive performance with validation data.
+
+-   The loss of the training data is around 2.75 and validation data set is around 2.89
+-   Both validation and training do not create a straight line as a consequence of the peaks and valleys involved, and the final curve has more oscillations.
+-   From the above mentioned accuracy figures, it can be concluded that the predictive performance is not very good and that there is room for development.
+
+
+### Model - 2
+
+**Implementing Model 2 - Convolution Neural Network **
+
+```{r}
+# Creating the CNN for the Aggregation data set
+model_agumented_merged <- keras_model_sequential() %>%
+#
+# convolutional layers
+layer_conv_2d(filters =256, kernel_size = c(3, 3), activation = "relu",
+input_shape = c(255, 255, 3)) %>%
+layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+  layer_batch_normalization() %>%
+layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu",padding = "same") %>%
+layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+  layer_batch_normalization() %>%
+layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu",padding = "same") %>%
+layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
+  layer_batch_normalization() %>%
+layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu",padding = "same") %>%
+layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+
+
+#
+# fully connected layers
+layer_flatten() %>%
+layer_dense(units = 256, activation = "relu") %>%
+layer_dense(units = 4, activation = "softmax") %>%
+#
+# compile
+compile(
+loss = "categorical_crossentropy",
+metrics = "accuracy",
+optimizer =optimizer_rmsprop(learning_rate = 0.0001)
+)
+
+
+
+```
+
+
+**Interpretation**
+
+-   Data augmentation is the process of stretching, shifting, rotating, and performing any other feasible transformations on the picture data before utilizing these modified images to train the model. In these circumstances, the model is actually exposed to new types of data, which prevents overfitting and increases the generality of the model.
+
+-   I used a CNN with four convoluted layers and a fully linked layer to increase validation accuracy and reduce overfitting.
+
+-   To capture the localized information of the picture, such as the borders and detailing, I used 512 filters with kernal sizes of 3X3 in the first convoluted layer.
+
+-   In order to capture some of the generalized characteristics as well as the local features that are available, 256 filters and a 3X3 kernal size have been used in the second layer. In order to take more generic pictures and make a feature map, the remaining convoluted layers are combined with 128 filters and 4X4 filters.
+
+-   The model's performance has been enhanced by padding. This is so that a feature map with k-1 dimensions may be obtained following convolution using the kXk filter. As a result, any crucial information that could be located on the image's margins or in its corners may be lost.
+
+-   These padding pixels have values of 0, therefore they have no effect on the element-wise product's final result. As a result, padding enables convolution where just the area of the layer containing the defined values is used for the product, with the remainder of the filter "sticking out" from the layer's boundaries. In this manner, the information loss is minimized and the size kXk is preserved.
+
+-   To capture both local and global aspects of the picture, the same number of filters and filter sizes as in CNN's prior model are utilized.Also, the padding has been set to 2X2. When the pooling size is set to c(2,2), non-overlapping sections of size 2x2 will be subject to the pooling procedure. This has the result of reducing the feature maps' spatial dimension by a factor of 2 in both the horizontal and vertical planes.
+
+-   verfitting has been avoided by using batch normalization. Each layer's input is normalized with a mean value of 0 and a variance value of 1.By lessening the internal covariate shift, batch normalization helps hasten the training process. This is the issue that arises when the settings of the layers that came before it are altered and the distribution of inputs to each layer changes. The distribution of inputs to each layer is stabilized by batch normalization, which facilitates learning and can hasten convergence.
+
+-   By avoiding overfitting, batch normalization can also enhance the model's generalization abilities. Batch normalization reduces the sensitivity of the model to the initial parameter values, can reduce the likelihood that the model will overfit the training data, and enhances convergence and parameter updation using optimization algorithms by normalizing the activations of each layer.
+
+-   The completely linked layer is built using an outpt layer and a single hidden layer with 512 hidden units, much like in the prior model.The model's capacity has been increased by 512 neuons, enabling the network to learn more complicated functions and maybe achieve greater accuracy on the training set of data.
+
+-   Ten neurons make up the output layer since ten class outputs are expected. Softmax function is the activation function utilized in the output layer.In neural networks, the softmax function is a common activation function, especially for multiclass classification issues.As a result, the softmax function has been used as the output layer's optimization function.
+
+
+
+```{r}
+# fitting the train data to the model
+fit1 <- model_agumented_merged %>% fit(
+  train_datagen,
+  steps_per_epoch = nrow(train_datagen),
+  epochs = 50,
+  validation_data = validation_datagen,
+  validation_steps = nrow(validation_datagen)
+)
+
+```
+
+
+**Learning curves**
+```{r}
+# check learning curves
+out <- cbind(fit1$metrics$accuracy,
+fit1$metrics$val_accuracy,
+fit1$metrics$loss,
+fit1$metrics$val_loss)
+cols <- c("black", "dodgerblue3")
+par(mfrow = c(1,2))
+# accuracy
+matplot(out[,1:2], pch = 19, ylab = "Accuracy", xlab = "Epochs",
+col = adjustcolor(cols, 0.3),
+log = "y",main = "Accuracy vs. Epochs")
+matlines(apply(out[,1:2], 2, smooth_line), lty = 1, col = cols, lwd = 2)
+legend("bottomright", legend = c("Training", "Validation"),
+fill = cols, bty = "n")
+#
+# loss
+matplot(out[,3:4], pch = 19, ylab = "Loss", xlab = "Epochs",
+col = adjustcolor(cols, 0.3),main = "Loss vs. Epochs")
+matlines(apply(out[,3:4], 2, smooth_line), lty = 1, col = cols, lwd = 2)
+legend("topright", legend = c("Training", "Validation"),
+fill = cols, bty = "n")
+
+```
+
+```{r}
+#metrics
+cat("Training,Validation accuracy and loss : \n")
+
+model_agumented_merged %>% evaluate(train_datagen, train_datagen$classes, verbose = 0)
+model_agumented_merged %>% evaluate(validation_datagen, validation_datagen$classes, verbose = 0)
+```
+**Interpretation**
+
+-   As is evident, we were able to achieve a validation accuracy of 0.6527778 and a total training accuracy of 0.7781403 Additionally, by using batch normalisation and data augmentation regularisation techniques, the overfitting issue of the prior model has been solved.
+
+-   The loss of training and validation are 0.503 and 0.837 respectively
+
+- The trainig dataset showed higher value variations throughout the epochs than the validation dataset, which created a smooth curve with less volatility.
+
+-   Because padding preserves the feature map's original geometry and stops data from being lost at corners, the overall validation accuracy has increased to 30%.
+
+
+### Model - 3
+
+**Implementing Model 3 -ResNet 50**
+
+```{r}
+
+base_model <-  application_resnet50(
+  weights = "imagenet",
+  include_top = FALSE,
+  input_shape =  c(255, 255, 3)
+)
+
+# Freeze layers in the base model
+for (layer in base_model$layers) {
+  layer$trainable <- TRUE
+}
+
+#building the model
+predictions <- base_model$output %>% 
+  layer_global_average_pooling_2d(trainable = T) %>% 
+  layer_flatten() %>%
+  layer_batch_normalization() %>%
+  layer_dense(units = 256, activation = "relu") %>%
+  layer_dense(units = NUM_CLASSES, activation = "softmax")
+
+#creating the model inputs
+model <- keras_model(inputs = base_model$input, outputs = predictions)
+
+#making the weights of the pre trained model train able
+for (layer in base_model$layers) layer$trainable = TRUE
+
+# adding the appropriate  optimizer and loss function
+optimizer <- optimizer_adam(learning_rate = 0.00001)
+model_4=model %>% compile(
+  loss = "categorical_crossentropy",
+  optimizer = optimizer,
+  metrics = c("accuracy")
+)
+
+# Callbacks
+checkpoint <- callback_model_checkpoint(
+  filepath = "Chest_CT_SCAN_ResNet50.h5",
+  monitor = "val_loss",
+  save_best_only = TRUE,
+  verbose = 1
+)
+earlystop <- callback_early_stopping(patience = 10, verbose = 1)
+
+#Summary of the model
+summary(model_4)
+
+#Fitting the pre trained model
+fit_augment <- model_4 %>% fit(
+  train_datagen,
+  validation_data = validation_datagen,
+  epochs = 50,
+  callbacks = list(checkpoint, earlystop),
+  verbose = 1
+)
+
+```
+
+**Interptation**
+
+-   The code starts by loading the ResNet-50 base model with weights pre-trained on ImageNet. The include_top argument is set to FALSE, which means the fully connected layers at the top of the network are excluded. The input_shape is specified as INPUT_SHAPE.
+
+-   The code defines the classification head of the model. It adds layers for global average pooling, flattening, batch normalization, and two dense layers with ReLU activation. The final dense layer has NUM_CLASSES units and a softmax activation function for multiclass classification.
+
+-   Two callbacks are defined: callback_model_checkpoint to save the best model based on validation loss and callback_early_stopping to stop training early if the validation loss doesn't improve for a certain number of epochs.
+
+**Learning curves**
+```{r}
+# check learning curves
+out <- cbind(fit_augment$metrics$accuracy,
+fit_augment$metrics$val_accuracy,
+fit_augment$metrics$loss,
+fit_augment$metrics$val_loss)
+cols <- c("black", "dodgerblue3")
+par(mfrow = c(1,2))
+# accuracy
+matplot(out[,1:2], pch = 19, ylab = "Accuracy", xlab = "Epochs",
+col = adjustcolor(cols, 0.3),
+log = "y",main = "Accuracy vs. Epochs")
+matlines(apply(out[,1:2], 2, smooth_line), lty = 1, col = cols, lwd = 2)
+legend("bottomright", legend = c("Training", "Validation"),
+fill = cols, bty = "n")
+#
+# loss
+matplot(out[,3:4], pch = 19, ylab = "Loss", xlab = "Epochs",
+col = adjustcolor(cols, 0.3),main = " Loss vs. Epochs")
+matlines(apply(out[,3:4], 2, smooth_line), lty = 1, col = cols, lwd = 2)
+legend("topright", legend = c("Training", "Validation"),
+fill = cols, bty = "n")
+
+```
+
+```{r}
+#model evaluation with. respect to train and validation data
+cat("Training,Validation accuracy and loss : \n")
+model_4 %>% evaluate(train_datagen, train_datagen$classes, verbose = 0)
+model_4 %>% evaluate(validation_datagen, validation_datagen$classes, verbose = 0)
+```
+
+**Interpretation**
+
+-   The training loss (0.88) represents the average value of the loss function across all the training examples in your dataset.
+
+-   The validation loss (0.88) is the average loss calculated on a separate validation dataset that the model has not seen during training. The validation accuracy (0.47222) represents the proportion of correctly classified examples in the validation dataset. It's an indicator of the model's performance on new data
+
+-   The model appears to have better performance on the training data compared to the validation data, as evidenced by the higher training accuracy and lower training loss. This could indicate overfitting, where the model has learned to memorize the training data rather than generalize to new data.
+
+-   The validation accuracy being around 0.5 suggests that the model might not be learning meaningful patterns in the data. It's important to investigate further why the model's performance is low on validation data. It could be due to various reasons, such as data quality, model complexity, or training procedures.
+
+
+### Results:
+
+-   The better model of the above three model is CNN model. Which give a Training Accuracy of 70% and Vailidation Accuracy of 60 %
+
+-   As the rest two model do show more accuracy and thay over fit the model. we consided CNN as our best model.
+
+```{r}
+# evaluate best model on the test data.
+scores_acc <- model_agumented_merged %>% evaluate(test_datagen)
+
+cat("\nloss for best model - ",scores_acc[1],"\n")
+cat("accuracy for best model - ",scores_acc[2])
+
+```
+
+
+```{r}
+metrics_ = function(model, test_generator) {
+    # Predict class labels for test set
+    y_prob <- predict(model, test_generator)
+  y_pred <- factor(apply(y_prob, 1, function(x) which.max(x)-1))
+  # Get actual class labels for test set
+  actual <- factor(as.numeric(test_generator$classes))
+  # Compute confusion matrix and other evaluation metrics
+  cm <- confusionMatrix(y_pred, actual)
+  cm
+
+}
+
+# confusion matrix and other metrics
+metrics_(model_agumented_merged, test_datagen)
+```
+
+
+**Interpertation**
+-   Values along the diagonal (from the top left to the bottom right) represent correct predictions for each class.
+
+-   Values off the diagonal represent misclassifications.
+
+-   Sensitivity (True Positive Rate, Recall): 0.6417  0.13725  0.24074  0.15556 repective classes
+-   Sensitivity, also known as True Positive Rate or Recall, measures the proportion of actual positive cases correctly predicted by the model. It indicates how well the model captures instances of each class.
+
+-   Specificity (True Negative Rate):Specificity for0.4564  0.90530  0.83525  0.86667 repective classes
+
+-   Specificity measures the proportion of actual negative cases correctly predicted by the model. It's particularly important when negative outcomes are of interest.
+
+-   Positive Predictive Value (Precision):0.4208  0.21875  0.23214  0.31818
+
+-   Precision is the proportion of predicted positive cases that were correctly predicted. It measures how well the model's positive predictions align with the actual positive cases.
+
+-   Negative Predictive Value: 0.6742  0.84452  0.84170  0.71956
+-   Negative Predictive Value is the proportion of predicted negative cases that were correctly predicted. It measures how well the model's negative predictions align with the actual negative cases.
+These metrics collectively provide insights into the performance of your classification model across different class
+
+-   Since class 0 is predicted to have higher sensitivity, the model may be biased towards the majority class, producing high sensitivity for that class and low sensitivity for the minority class.
+
+-   The ideal combination of hyperparameters that may be utilized to achieve the greatest performance can be found by tuning of hyperparameters, which can be done utilizing the various sets of accessible parameters to boost the prediction's accuracy.
+
+-   Another alternative we may advise is expanding the dataset used to train the data. CNN requires a large amount of data for training in order to perform well.
+
+-   Additionally, increasing the number of epochs may be advised because the model requires more time and epochs to actually learn from the images that are provided to it.
+
+-   Due to inadequate data and an unsuitable mix of hyperparameters, the model's performance is below average.
+
+
+```{r}
+#Saving the model
+save_model_tf(model_agumented_merged, "model_augmented")
+```
+
